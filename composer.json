@@ -6,7 +6,7 @@
     "require": {
         "php": ">=7.4",
         "laravel/socialite": "^5.5",
-        "firebase/php-jwt": "^5.2",
+        "firebase/php-jwt": "^6.10",
         "socialiteproviders/manager": "~4.0"
     },
     "autoload": {
