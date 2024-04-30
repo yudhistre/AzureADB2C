@@ -26,6 +26,17 @@ class Provider extends AbstractProvider
     protected $scopeSeparator = ' ';
 
     /**
+     * Get the scopes for the authentication request.
+     *
+     * @return array
+     */
+    public function getScopes()
+    {
+        $clientId = $this->getConfig('client_id');
+        return array_merge($this->scopes, [$clientId]);
+    }
+
+    /**
      * Get the policy.
      *
      * @return string
@@ -149,8 +160,11 @@ class Provider extends AbstractProvider
 
         $response = $this->getAccessTokenResponse($this->getCode());
         $claims = $this->validateIdToken(Arr::get($response, 'id_token'));
-
-        return $this->mapUserToObject($claims);
+        $_user = $this->mapUserToObject($claims);
+        if ($accessToken = Arr::get($response, 'access_token')) {
+            $_user->setToken($accessToken);
+        }
+        return $_user;
     }
 
     /**
